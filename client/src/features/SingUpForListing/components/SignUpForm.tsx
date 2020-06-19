@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { InputLabelForm } from '../../../components/text';
 import { Form ,InputFormText } from '../../../components/inputs';
 import { Button } from '../../../components/buttons';
-import { on } from 'cluster';
+
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/add-listing' : 'http://45.56.86.91/api/add-listing';
 
 interface ServerResponse {
   msg: string;
@@ -27,7 +28,7 @@ const SignUpForm: React.FC = () => {
       pushoverToken: pushoverInputKeyRef.current!.value
     };
 
-  let response = await fetch('http://localhost:3000/api/add-listing', {
+  let response = await fetch(API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
