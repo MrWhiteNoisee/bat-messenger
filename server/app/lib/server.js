@@ -6,7 +6,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const app = express();
-const router = express.Router();
 
 // env variables
 const PORT = process.env.PORT || 3000;
@@ -19,6 +18,11 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
+  },
+  (error) => {
+    if (error) {
+      console.error(error);
+    }
   }
 );
 

@@ -21,6 +21,14 @@ listingRouter.post('/api/add-listing', bodyParser.json(), (req, res, rej) => {
       const title = $('.listing-post-title').text();
       const unixTime = $('.listing-available-info .listing-available-countdown').data('until');
 
+      if (unixTime === undefined) {
+        return res.send({
+          msg: `${title} has ended`,
+          numberOfWatchers: 0,
+          endingDate: ''
+        })
+      }
+
       const date = new Date(unixTime * 1000).toISOString();
 
       const data = {
@@ -29,8 +37,6 @@ listingRouter.post('/api/add-listing', bodyParser.json(), (req, res, rej) => {
         willEndAt: date,
         pushoverTokens: [ pushoverToken ]
       }
-
-      if (data )
 
       Listing.find({ listingURL: url }).then(docExists => {
         if (docExists.length !== 0) {
@@ -65,6 +71,6 @@ listingRouter.post('/api/add-listing', bodyParser.json(), (req, res, rej) => {
       })
     })
     .catch((error) => {
-      res.send(error);
+      console.error(error);
     });
 });
